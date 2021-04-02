@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextTitle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="font_name">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_16</item>
+    </style>
+
+    <style name="TextSubTitle">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="font_name">@font/poppins_regular</item>
+        <item name="android:textColor">?attr/darkColor</item>
+        <item name="android:textSize">@dimen/text_14</item>
+    </style>
+
+    <style name="TextDescription">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="font_name">@font/poppins_regular</item>
+        <item name="android:textColor">?attr/darkColor</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="@style/Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:textColorPrimary">?attr/darkColor</item>
+        <item name="textColorAlertDialogListItem">?attr/darkColor</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/TextDescription</item>
+    </style>
+
+</resources>

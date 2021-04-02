@@ -1,4 +1,4 @@
-package com.makeover.todolist.view.dashboard.ui.home
+package com.makeover.todolist.view.dashboard.ui.category
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

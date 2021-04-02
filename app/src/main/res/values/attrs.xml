@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="font_name" format="string"/>
+    <attr name="darkColor" format="color"/>
+    <attr name="appColor" format="color"/>
+    <attr name="dark_gray" format="color"/>
+</resources>
