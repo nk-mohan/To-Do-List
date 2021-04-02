@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">To Do List</string>
+    <string name="msg_no_internet">Please check your internet connectivity</string>
+    <string name="title_activity_dashboard">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="new_task">New Task</string>
+    <string name="create">Create</string>
+    <string name="schedule_task">Schedule Task</string>
+    <string name="alert_task_category_empty">Category name should not be empty!</string>
+</resources>
