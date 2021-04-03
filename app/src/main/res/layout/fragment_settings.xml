@@ -24,7 +24,7 @@
             android:paddingEnd="@dimen/dimen_20"
             android:paddingBottom="@dimen/dimen_10"
             android:text="@string/display"
-            android:textColor="?attr/appColor"
+            android:textColor="@color/app_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +61,7 @@
                 android:paddingStart="@dimen/dimen_20"
                 android:paddingEnd="@dimen/dimen_20"
                 android:text="@string/theme"
-                android:textColor="?attr/darkColor"
+                android:textColor="@color/dark_color"
                 app:layout_constraintBottom_toTopOf="@+id/theme_text_view"
                 app:layout_constraintStart_toEndOf="@+id/theme_image_view"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -74,7 +74,7 @@
                 android:paddingStart="@dimen/dimen_20"
                 android:paddingEnd="@dimen/dimen_20"
                 android:text="@{settingsBindingData.selectedTheme}"
-                android:textColor="?attr/dark_gray"
+                android:textColor="@color/dark_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/theme_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/theme_title_text_view" />

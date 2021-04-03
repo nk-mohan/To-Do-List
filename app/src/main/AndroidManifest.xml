@@ -16,7 +16,8 @@
         android:theme="@style/Theme.App.DayNight">
         <activity
             android:name=".view.dashboard.DashboardActivity"
-            android:label="@string/title_activity_dashboard" />
+            android:label="@string/title_activity_dashboard"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".view.StartActivity"
             android:theme="@style/splashScreenTheme"

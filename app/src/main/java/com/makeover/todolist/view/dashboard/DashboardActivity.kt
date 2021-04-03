@@ -10,6 +10,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.makeover.todolist.R
 import com.makeover.todolist.databinding.ActivityDashboardBinding
 import com.makeover.todolist.helper.bindView
+import com.makeover.todolist.utils.Constants
+import com.makeover.todolist.utils.SharedPreferenceManager
 import com.makeover.todolist.view.BottomSheetCreateTaskFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +43,11 @@ class DashboardActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         bindingDashboardActivity.navView.setupWithNavController(navController)
+
+        if (SharedPreferenceManager.getBooleanValue(Constants.DAY_NIGHT_MODE_UPDATED)) {
+            SharedPreferenceManager.setBooleanValue(Constants.DAY_NIGHT_MODE_UPDATED, false)
+            navController.navigate(R.id.navigation_settings)
+        }
 
         setUpViewActions()
     }

@@ -44,20 +44,12 @@ Fapp/src/main/java/com/makeover/todolist/helper/CategoryDiffCallback.kt,d\8\d87
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-Y
-)app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
-Y
-)app/src/main/res/menu/bottom_nav_menu.xml,b\2\b2bdb93c5506261fbedb574044fb21ea44be597a
-d
-4app/src/main/res/layout/bottom_sheet_create_task.xml,2\f\2f7b22a9c464569608b5fcfde7afa15b29165fb2
 T
 $.idea/codeStyles/codeStyleConfig.xml,d\d\dd7b3350c29c49497756c7f32c69a3bed18b1cba
 y
 Iapp/src/androidTest/java/com/makeover/todolist/ExampleInstrumentedTest.kt,7\b\7b852b02f5686cf98890db7a2ef8b7292c64c1cb
 j
 :app/src/test/java/com/makeover/todolist/ExampleUnitTest.kt,c\e\cecbaf478e785aa1a1f9910a13bbea35540cf67e
-^
-.app/src/main/res/layout/fragment_dashboard.xml,1\8\18eaee926d30131e3e5f14f54aa2e92f5403bfb8
 A
 gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
 X
@@ -84,8 +76,6 @@ L
 .idea/codeStyles/Project.xml,6\e\6ecd6000a7b6f4a2884412ff19f74193ed089648
 ?
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
-^
-.app/src/main/res/layout/activity_dashboard.xml,5\c\5c708354d1e40c2b7572553d99ed6bddbc10fd54
 w
 Gapp/src/main/java/com/makeover/todolist/view/customviews/AlertDialog.kt,e\5\e5ceb67d8a135b4b0ec2846eb4dd05d0a5eb1e5b
 x
@@ -102,3 +92,13 @@ Uapp/src/main/java/com/makeover/todolist/view/dashboard/ui/category/CategoryAdap
 Vapp/src/main/java/com/makeover/todolist/view/dashboard/ui/category/CategoryFragment.kt,0\3\03b37728e623d2a350c9edbb1a6c6b04c3626ba0
 †
 Vapp/src/main/java/com/makeover/todolist/view/dashboard/ui/settings/SettingsFragment.kt,c\2\c2d3ddfd3c71be6349fb4c8c4df7fa7cb7cb4dae
+i
+9app/src/main/java/com/makeover/todolist/utils/AppUtils.kt,f\3\f32170a91aa27524d5b6139a6528fd18662534bb
+j
+:app/src/main/java/com/makeover/todolist/utils/Constants.kt,1\e\1ed2c5799bb1da2332fd60273598ce023926a12a
+R
+"app/src/main/res/values/dimens.xml,c\3\c3c1811dec2dbad2deeafb9aad505ca9631da740
+x
+Happ/src/main/java/com/makeover/todolist/utils/SharedPreferenceManager.kt,2\1\21a1dc1adf77356a1fd9d2e53e34c9d9685efae0
+S
+#app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e

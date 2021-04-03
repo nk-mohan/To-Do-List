@@ -12,7 +12,7 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="font_name">@font/poppins_regular</item>
-        <item name="android:textColor">?attr/darkColor</item>
+        <item name="android:textColor">@color/dark_color</item>
         <item name="android:textSize">@dimen/text_14</item>
     </style>
 
@@ -20,14 +20,20 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="font_name">@font/poppins_regular</item>
-        <item name="android:textColor">?attr/darkColor</item>
+        <item name="android:textColor">@color/dark_color</item>
         <item name="android:textSize">@dimen/text_12</item>
     </style>
 
     <style name="AppCompatAlertDialogStyle" parent="@style/Theme.AppCompat.DayNight.Dialog.Alert">
-        <item name="android:textColorPrimary">?attr/darkColor</item>
-        <item name="textColorAlertDialogListItem">?attr/darkColor</item>
+        <item name="android:textColorPrimary">@color/dark_color</item>
+        <item name="textColorAlertDialogListItem">@color/dark_color</item>
         <item name="materialAlertDialogBodyTextStyle">@style/TextDescription</item>
+    </style>
+
+    //Style
+    <style name="WindowAnimationFadeInOut">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
 </resources>

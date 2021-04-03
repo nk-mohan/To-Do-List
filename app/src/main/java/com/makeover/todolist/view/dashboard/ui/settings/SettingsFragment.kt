@@ -39,7 +39,7 @@ class SettingsFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        settingsDataBinding.setActivity(requireActivity(), settingsViewModel)
+        settingsDataBinding.setActivity(requireActivity())
         settingsViewModel.getSelectedTheme()
 
         setObservers()

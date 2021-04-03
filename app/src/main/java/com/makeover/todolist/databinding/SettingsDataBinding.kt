@@ -2,6 +2,7 @@ package com.makeover.todolist.databinding
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.makeover.todolist.R
 import com.makeover.todolist.`interface`.AlertDialogListener
@@ -19,17 +20,17 @@ class SettingsDataBinding @Inject constructor(@ApplicationContext val context: C
     lateinit var alertDialog: AlertDialog
 
     private var activity: Activity? = null
-    private var settingsViewModel: SettingsViewModel? = null
 
-    fun setActivity(activity: Activity?, settingsViewModel: SettingsViewModel) {
+    fun setActivity(activity: Activity?) {
         this.activity = activity
-        this.settingsViewModel = settingsViewModel
     }
 
     fun changeTheme() {
-        val choices: Array<String> = context.resources.getStringArray(R.array.choose_theme_choices)
+        var choices: Array<String> = context.resources.getStringArray(R.array.choose_theme_choices)
         val selectedMode = SharedPreferenceManager.getIntValue(Constants.DAY_NIGHT_MODE)
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
+            choices = choices.sliceArray(IntRange(0, 1))
         alertDialog.showAlertDialog(activity, context.resources.getString(R.string.choose_theme),
             choices, selectedMode,
             context.resources.getString(R.string.positive_button),
@@ -37,8 +38,8 @@ class SettingsDataBinding @Inject constructor(@ApplicationContext val context: C
             object : AlertDialogListener {
                 override fun selectedItem(position: Int) {
                     SharedPreferenceManager.setIntValue(Constants.DAY_NIGHT_MODE, position)
+                    SharedPreferenceManager.setBooleanValue(Constants.DAY_NIGHT_MODE_UPDATED, true)
                     AppCompatDelegate.setDefaultNightMode(AppUtils.getNightMode())
-                    settingsViewModel?.getSelectedTheme()
                 }
             })
     }

@@ -8,6 +8,7 @@ import com.makeover.todolist.view.dashboard.DashboardActivity
 
 class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_App_DayNight)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

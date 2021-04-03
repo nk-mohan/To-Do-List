@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
 
-    <style name="Base.Theme.App.Light" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Base.Theme.App.Light" parent="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:fontFamily">@font/poppins_medium</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_500</item>
@@ -18,10 +18,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
-        <!-- Item color. -->
-        <item name="darkColor">@color/black</item>
-        <item name="appColor">@color/main_green</item>
-        <item name="dark_gray">@color/black_gray</item>
     </style>
 
     <style name="Theme.App.Light" parent="Base.Theme.App.Light" />

@@ -2,6 +2,7 @@ package com.makeover.todolist.utils
 
 object Constants {
     const val DAY_NIGHT_MODE = "day_night_mode"
+    const val DAY_NIGHT_MODE_UPDATED = "day_night_mode_updated"
 
 
     const val THEME_LIGHT = 0
