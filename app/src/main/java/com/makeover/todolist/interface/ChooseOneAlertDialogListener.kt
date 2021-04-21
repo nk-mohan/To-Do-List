@@ -1,6 +1,6 @@
 package com.makeover.todolist.`interface`
 
-interface AlertDialogListener {
+interface ChooseOneAlertDialogListener {
 
     fun selectedItem(position: Int)
 }

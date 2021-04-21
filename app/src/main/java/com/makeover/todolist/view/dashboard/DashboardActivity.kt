@@ -1,28 +1,18 @@
 package com.makeover.todolist.view.dashboard
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.makeover.todolist.R
 import com.makeover.todolist.databinding.ActivityDashboardBinding
-import com.makeover.todolist.helper.bindView
-import com.makeover.todolist.utils.Constants
-import com.makeover.todolist.utils.SharedPreferenceManager
-import com.makeover.todolist.view.BottomSheetCreateTaskFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.makeover.todolist.view.delegate.DashboardParent
 
 
-@AndroidEntryPoint
-class DashboardActivity : AppCompatActivity() {
-
-    private var _bindingDashboardActivity: ActivityDashboardBinding? = null
-    private val bindingDashboardActivity get() = _bindingDashboardActivity!!
-
-    private val newTaskFab: FloatingActionButton by bindView(R.id.newTaskFab)
+class DashboardActivity : DashboardParent() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +21,14 @@ class DashboardActivity : AppCompatActivity() {
 
         setContentView(bindingDashboardActivity.root)
 
+        setUpNavigation()
+        setUpViewActions()
+    }
+
+    private fun setUpNavigation() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
@@ -42,23 +37,51 @@ class DashboardActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        bindingDashboardActivity.navView.setupWithNavController(navController)
+        bindingDashboardActivity.bottomNavView.setupWithNavController(navController)
 
-        if (SharedPreferenceManager.getBooleanValue(Constants.DAY_NIGHT_MODE_UPDATED)) {
-            SharedPreferenceManager.setBooleanValue(Constants.DAY_NIGHT_MODE_UPDATED, false)
-            navController.navigate(R.id.navigation_settings)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            setUpMenu()
         }
 
-        setUpViewActions()
+        supportActionBar
     }
 
     private fun setUpViewActions() {
-        newTaskFab.setOnClickListener {
-            supportFragmentManager.let {
-                BottomSheetCreateTaskFragment.newInstance(Bundle()).apply {
-                    show(it, tag)
-                }
+        bindingDashboardActivity.newTaskFab.setOnClickListener {
+            showBottomSheetFragment(
+                navController.currentDestination?.id == R.id.task_fragment,
+                false
+            )
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.header_menu, menu)
+        actionModeMenu = menu
+        setUpMenu()
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+            R.id.edit_category -> {
+                showBottomSheetFragment(isTask = false, isEdit = true)
+            }
+            R.id.delete_category -> {
+                deleteCategory()
+            }
+            R.id.edit_task -> {
+                showBottomSheetFragment(isTask = true, isEdit = true)
+            }
+            R.id.delete_task -> {
+                deleteTask()
             }
         }
+        return super.onOptionsItemSelected(item)
+
     }
 }

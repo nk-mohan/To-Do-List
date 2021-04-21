@@ -28,4 +28,9 @@ object RoomModule {
     @Provides
     fun provideTaskCategoryDao(db: AppDatabase) =
         db.taskCategoryDao() // The reason we can implement a Dao for the database
+
+    @Singleton
+    @Provides
+    fun provideTaskDao(db: AppDatabase) =
+        db.taskDao()
 }

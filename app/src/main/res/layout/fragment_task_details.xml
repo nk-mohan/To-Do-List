@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="task"
+            type="com.makeover.todolist.room.model.Task" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.dashboard.ui.taskdetails.TaskDetailsFragment">
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextTitle"
+            android:text="@{task.title}"
+            android:padding="@dimen/dimen_10"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextSubTitle"
+            android:text="@{task.description}"
+            android:padding="@dimen/dimen_10"
+            app:layout_constraintTop_toBottomOf="@+id/task_title"
+            app:drawableStartCompat="@drawable/ic_description" />
+
+        <TextView
+            android:id="@+id/schedule_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextSubTitle"
+            app:layout_constraintTop_toBottomOf="@+id/task_description"
+            app:drawableStartCompat="@drawable/ic_event_schedule"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

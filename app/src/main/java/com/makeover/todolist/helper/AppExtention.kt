@@ -2,11 +2,16 @@ package com.makeover.todolist.helper
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Bitmap.createBitmap
+import android.graphics.Canvas
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -30,17 +35,24 @@ fun View.gone() {
     let { visibility = View.GONE }
 }
 
-fun <ViewT : View> AppCompatActivity.bindView(@IdRes idRes: Int): Lazy<ViewT> {
-    return lazy(LazyThreadSafetyMode.NONE) {
-        findViewById<ViewT>(idRes)
-    }
+fun MenuItem.show(){
+    isVisible= true
 }
 
-fun <ViewT : View> Fragment.bindView(@IdRes idRes: Int): ReadOnlyProperty<Fragment, ViewT> {
-    return FragmentBinder(this) {
-        it.view!!.findViewById<ViewT>(idRes)
-    }
+fun MenuItem.hide(){
+    isVisible = false
 }
+
+
+fun hideMenu(vararg menuItems: MenuItem) {
+    menuItems.map { it.hide() }
+}
+
+fun showMenu(vararg menuItems: MenuItem) {
+    menuItems.map { it.show() }
+}
+
+fun Menu.get(menuId: Int): MenuItem = findItem(menuId)
 
 private class FragmentBinder<out ViewT : View>(
     val fragment: Fragment,
@@ -119,4 +131,24 @@ fun Fragment.showKeyBoard(editText: EditText) {
     val imm =
         requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
     imm!!.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+}
+
+inline fun <reified T : Any> Context.launchActivity(options: Bundle? = null, noinline init: Intent.() -> Unit = {}) {
+    val intent = newIntent<T>(this)
+    intent.init()
+    startActivity(intent, options)
+}
+
+inline fun <reified T : Any> newIntent(context: Context): Intent = Intent(context, T::class.java)
+
+
+fun Context.vectorToBitmap(drawableId: Int): Bitmap? {
+    val drawable = ContextCompat.getDrawable(this, drawableId) ?: return null
+    val bitmap = createBitmap(
+        drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+    ) ?: return null
+    val canvas = Canvas(bitmap)
+    drawable.setBounds(0, 0, canvas.width, canvas.height)
+    drawable.draw(canvas)
+    return bitmap
 }

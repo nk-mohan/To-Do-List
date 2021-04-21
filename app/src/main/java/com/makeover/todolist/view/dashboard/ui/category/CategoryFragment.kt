@@ -6,20 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.makeover.todolist.databinding.FragmentCategoryBinding
+import com.makeover.todolist.room.model.Category
 import com.makeover.todolist.view.delegate.ViewBindingHolder
 import com.makeover.todolist.view.delegate.ViewBindingHolderImpl
-import com.makeover.todolist.viewmodel.CategoryViewModel
+import com.makeover.todolist.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CategoryFragment : Fragment(),
+class CategoryFragment : Fragment(), CategoryAdapter.CategoryAdapterClickListener,
     ViewBindingHolder<FragmentCategoryBinding> by ViewBindingHolderImpl() {
 
-    private val categoryViewModel: CategoryViewModel by viewModels()
+    private val dashboardViewModel: DashboardViewModel by activityViewModels()
 
-    private val categoryAdapter by lazy { CategoryAdapter(categoryViewModel.categoryListAdapter) }
+    private val categoryAdapter by lazy {
+        CategoryAdapter(
+            dashboardViewModel.categoryListAdapter,
+            this
+        )
+    }
 
     private var _categoryFragmentBinding: FragmentCategoryBinding? = null
 
@@ -36,6 +46,7 @@ class CategoryFragment : Fragment(),
     private fun initViews() {
         categoryFragmentBinding.categoryRecyclerView.apply {
             adapter = categoryAdapter
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
     }
 
@@ -45,11 +56,11 @@ class CategoryFragment : Fragment(),
         initViews()
         setObservers()
 
-        categoryViewModel.getCategoryList()
+        dashboardViewModel.getCategoryList()
     }
 
     private fun setObservers() {
-        categoryViewModel.categoryDiffResult.observe(
+        dashboardViewModel.categoryDiffResult.observe(
             viewLifecycleOwner,
             { diffUtilResult ->
                 // Save Current Scroll state to retain scroll position after DiffUtils Applied
@@ -60,5 +71,11 @@ class CategoryFragment : Fragment(),
                     previousState
                 )
             })
+    }
+
+    override fun onCategoryClicked(category: Category) {
+        val action =
+            CategoryFragmentDirections.actionNavigationCategoryToTaskFragment(category.id!!)
+        findNavController().navigate(action)
     }
 }

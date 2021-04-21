@@ -3,7 +3,7 @@ package com.makeover.todolist.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.makeover.todolist.utils.Constants
+import com.makeover.todolist.utils.AppConstants
 import com.makeover.todolist.utils.SharedPreferenceManager
 
 class SettingsViewModel : ViewModel() {
@@ -16,6 +16,6 @@ class SettingsViewModel : ViewModel() {
     val selectedTheme = MutableLiveData<Int>()
 
     fun getSelectedTheme() {
-        selectedTheme.postValue(SharedPreferenceManager.getIntValue(Constants.DAY_NIGHT_MODE))
+        selectedTheme.postValue(SharedPreferenceManager.getIntValue(AppConstants.DAY_NIGHT_MODE))
     }
 }

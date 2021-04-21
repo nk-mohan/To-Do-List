@@ -8,7 +8,7 @@
     <color name="secondary_700">#00867d</color>
 
     <color name="colorPrimary">#48a999</color>
-    <color name="colorPrimaryDark">#00796b</color>
+    <color name="colorPrimaryDark">#1b1b1b</color>
     <color name="colorAccent">#4db6ac</color>
 
     <!--Main colors-->
@@ -21,6 +21,7 @@
     <color name="light_grey">#ededed</color>
     <color name="dark_red">#B00020</color>
 
+    <color name="actionbar_color">#2c2c2c</color>
     <color name="dark_color">@color/white</color>
     <color name="app_color">@color/main_green</color>
     <color name="dark_gray">@color/black_gray</color>

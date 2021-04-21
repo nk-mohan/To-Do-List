@@ -9,7 +9,11 @@
         android:id="@+id/navigation_category"
         android:name="com.makeover.todolist.view.dashboard.ui.category.CategoryFragment"
         android:label="@string/title_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_navigation_category_to_taskFragment"
+            app:destination="@id/task_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,4 +26,25 @@
         android:name="com.makeover.todolist.view.dashboard.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/task_fragment"
+        android:name="com.makeover.todolist.view.dashboard.ui.task.TaskFragment"
+        android:label="fragment_task"
+        tools:layout="@layout/fragment_task">
+        <argument
+            android:name="category_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_task_fragment_to_taskDetailsFragment"
+            app:destination="@id/taskDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskDetailsFragment"
+        android:name="com.makeover.todolist.view.dashboard.ui.taskdetails.TaskDetailsFragment"
+        android:label="fragment_task_details"
+        tools:layout="@layout/fragment_task_details" >
+        <argument
+            android:name="task_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
