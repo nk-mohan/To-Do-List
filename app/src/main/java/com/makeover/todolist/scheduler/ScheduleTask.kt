@@ -34,22 +34,29 @@ class ScheduleTask @Inject constructor(private val taskRepository: TaskRepositor
                         .putString(AppConstants.NOTIFICATION_SUB_TITLE, task.description)
                         .build()
                     val delay = customTime - currentTime
-                    scheduleNotification(delay, data, it)
+                    scheduleNotification(delay, data, it, task.id ?: 0)
                 }
             }
         }
     }
 
-    private fun scheduleNotification(delay: Long, data: Data, context: Context) {
+    private fun scheduleNotification(delay: Long, data: Data, context: Context, workName: Int) {
         val notificationWork = OneTimeWorkRequest.Builder(ScheduleTaskWorker::class.java)
             .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
 
-        val instanceWorkManager = WorkManager.getInstance(context)
-        instanceWorkManager.beginUniqueWork(
-            AppConstants.NOTIFICATION_WORK,
+        val workManager = WorkManager.getInstance(context)
+        workManager.beginUniqueWork(
+            workName.toString(),
             ExistingWorkPolicy.REPLACE,
             notificationWork
         ).enqueue()
+    }
+
+    fun cancelScheduleTask(context: Context?, workName: Int) {
+        context?.let {
+            val workManager = WorkManager.getInstance(context)
+            workManager.cancelUniqueWork(workName.toString())
+        }
     }
 
 }

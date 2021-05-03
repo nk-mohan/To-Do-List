@@ -16,11 +16,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> clickListener.onTaskClicked(task)}"
         android:padding="@dimen/dimen_20">
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/task_title"
             style="@style/TextSubTitle"
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/task_description"
             style="@style/TextDescription"
             android:layout_width="match_parent"

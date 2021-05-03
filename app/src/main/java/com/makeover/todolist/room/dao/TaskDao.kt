@@ -9,8 +9,26 @@ interface TaskDao {
     @Insert
     suspend fun insertTask(task: Task): Long
 
-    @Query("UPDATE TASK SET title =:title, description =:description WHERE id =:id")
-    suspend fun updateTaskName(id:Int, title:String, description:String)
+    @Update
+    suspend fun updateTask(task: Task)
+
+    @Query("UPDATE TASK SET title =:title, description =:description, date=:date, hour=:hour, minute=:minute  WHERE id =:id")
+    suspend fun updateTask(
+        id: Int,
+        title: String,
+        description: String,
+        date: Long?,
+        hour: Int?,
+        minute: Int?
+    )
+
+    @Query("UPDATE TASK SET date=:date, hour=:hour, minute=:minute  WHERE id =:id")
+    suspend fun updateTaskTime(
+        id: Int,
+        date: Long?,
+        hour: Int?,
+        minute: Int?
+    )
 
     @Query("SELECT * FROM TASK")
     suspend fun getTaskList(): List<Task>

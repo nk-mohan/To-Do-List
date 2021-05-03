@@ -34,6 +34,11 @@
 
     <string name="positive_button">OK</string>
     <string name="negative_button">CANCEL</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="set_time">Set time</string>
+    <string name="repeat">Repeat</string>
+    <string name="time_format_am">%d:%d AM</string>
+    <string name="time_format_pm">%d:%d PM</string>
+    <string name="add_date_or_time">Add date/time</string>
 </resources>

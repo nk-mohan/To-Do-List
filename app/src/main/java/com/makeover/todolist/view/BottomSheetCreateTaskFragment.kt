@@ -17,12 +17,12 @@ import com.makeover.todolist.helper.show
 import com.makeover.todolist.helper.showKeyBoard
 import com.makeover.todolist.helper.views.CustomToast
 import com.makeover.todolist.utils.AppConstants
-import com.makeover.todolist.view.customviews.DateAndTimePicker
+import com.makeover.todolist.utils.AppUtils
+import com.makeover.todolist.view.customviews.ScheduleDateFragment
 import com.makeover.todolist.view.delegate.ViewBindingHolder
 import com.makeover.todolist.view.delegate.ViewBindingHolderImpl
 import com.makeover.todolist.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class BottomSheetCreateTaskFragment : BottomSheetDialogFragment(), View.OnClickListener,
@@ -39,9 +39,6 @@ class BottomSheetCreateTaskFragment : BottomSheetDialogFragment(), View.OnClickL
     private var currentSelectedDate: Long? = null
     private var currentSelectedHour: Int? = null
     private var currentSelectedMinute: Int? = null
-
-    @Inject
-    lateinit var dateAndTimePicker: DateAndTimePicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,11 +96,11 @@ class BottomSheetCreateTaskFragment : BottomSheetDialogFragment(), View.OnClickL
 
             })
         }
-        createTaskBinding.taskDescription.setOnClickListener(this)
-
-        createTaskBinding.btnCreateTaskCategory.setOnClickListener(this)
-
         createTaskBinding.scheduleTask.setOnClickListener(this)
+        createTaskBinding.taskDescription.setOnClickListener(this)
+        createTaskBinding.btnCreateTaskCategory.setOnClickListener(this)
+        createTaskBinding.scheduleTimeLayout.cancelSchedule.setOnClickListener(this)
+        createTaskBinding.scheduleTimeLayout.scheduleTimeLayout.setOnClickListener(this)
     }
 
     private fun setUpCategoryView() {
@@ -136,14 +133,30 @@ class BottomSheetCreateTaskFragment : BottomSheetDialogFragment(), View.OnClickL
                 }
         })
 
-        viewModel.task.observe(viewLifecycleOwner, {
-            with(createTaskBinding.taskNameEditText) {
-                setText(it.title)
-                setSelection(text.length)
-            }
-            with(createTaskBinding.taskDescriptionEditText) {
-                show()
-                setText(it.description)
+        viewModel.task.observe(viewLifecycleOwner, { task ->
+            if (isEdit && isCreateTask) {
+                with(createTaskBinding.taskNameEditText) {
+                    setText(task.title)
+                    setSelection(text.length)
+                }
+                with(createTaskBinding.taskDescriptionEditText) {
+                    show()
+                    setText(task.description)
+                }
+                task.date?.let {
+                    currentSelectedDate = task.date
+                    currentSelectedHour = task.hour
+                    currentSelectedMinute = task.minute
+                    createTaskBinding.scheduleTimeLayout.root.show()
+                    createTaskBinding.scheduleTimeLayout.scheduledTime.text =
+                        AppUtils.getDateAndTimeString(
+                            requireContext(),
+                            task.date,
+                            task.hour,
+                            task.minute
+                        )
+                }
+
             }
         })
     }
@@ -175,20 +188,25 @@ class BottomSheetCreateTaskFragment : BottomSheetDialogFragment(), View.OnClickL
                     setSelection(text.length)
                 }
             }
-            createTaskBinding.scheduleTask -> {
-                dateAndTimePicker.showDatePicker(
-                    parentFragmentManager,
-                    currentSelectedDate,
+            createTaskBinding.scheduleTask, createTaskBinding.scheduleTimeLayout.scheduleTimeLayout -> {
+                ScheduleDateFragment(currentSelectedDate,
                     currentSelectedHour,
-                    currentSelectedMinute,
-                    object : DateAndTimePickerListener {
+                    currentSelectedMinute, object : DateAndTimePickerListener {
                         override fun onSelectedDateAndTime(date: Long, hour: Int, minute: Int) {
                             currentSelectedDate = date
                             currentSelectedHour = hour
                             currentSelectedMinute = minute
+                            createTaskBinding.scheduleTimeLayout.root.show()
+                            createTaskBinding.scheduleTimeLayout.scheduledTime.text =
+                                AppUtils.getDateAndTimeString(requireContext(), date, hour, minute)
                         }
-
-                    })
+                    }).show(parentFragmentManager, ScheduleDateFragment.TAG)
+            }
+            createTaskBinding.scheduleTimeLayout.cancelSchedule -> {
+                createTaskBinding.scheduleTimeLayout.root.gone()
+                currentSelectedDate = null
+                currentSelectedHour = null
+                currentSelectedMinute = null
             }
         }
     }
@@ -232,7 +250,11 @@ class BottomSheetCreateTaskFragment : BottomSheetDialogFragment(), View.OnClickL
         if (isValidTextToCreateTaskOrCategory()) {
             viewModel.updateTask(
                 createTaskBinding.taskNameEditText.text.toString(),
-                createTaskBinding.taskDescriptionEditText.text.toString()
+                createTaskBinding.taskDescriptionEditText.text.toString(),
+                currentSelectedDate,
+                currentSelectedHour,
+                currentSelectedMinute,
+                requireContext()
             )
             dismiss()
         }

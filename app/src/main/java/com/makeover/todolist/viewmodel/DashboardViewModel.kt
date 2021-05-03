@@ -38,6 +38,7 @@ class DashboardViewModel @ViewModelInject constructor(
     val categoryDiffResult = MutableLiveData<DiffUtil.DiffResult>()
 
     val task: MutableLiveData<Task> = MutableLiveData()
+    val editTask: MutableLiveData<Boolean> = MutableLiveData()
     val taskList: MutableLiveData<List<Task>> = MutableLiveData()
     val taskListByCategory = mutableListOf<Task>()
     val taskListByCategoryAdapter = mutableListOf<Task>()
@@ -145,11 +146,37 @@ class DashboardViewModel @ViewModelInject constructor(
         }
     }
 
-    fun updateTask(taskTitle: String, taskDescription: String) {
+    fun updateTask(
+        taskTitle: String,
+        taskDescription: String,
+        date: Long?,
+        hour: Int?,
+        minute: Int?,
+        context: Context?
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            taskRepository.updateTask(taskId, taskTitle, taskDescription)
+            taskRepository.updateTask(
+                taskId, taskTitle, taskDescription, date, hour,
+                minute
+            )
+            scheduleTask.scheduleTask(taskId.toLong(), context)
             getTaskListById(categoryId)
             getTask(taskId)
+        }
+    }
+
+    fun updateTaskTime(
+        date: Long?,
+        hour: Int?,
+        minute: Int?,
+        context: Context?
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.updateTaskTime(taskId, date, hour, minute)
+            date?.let {
+                scheduleTask.scheduleTask(taskId.toLong(), context)
+                getTask(taskId)
+            }
         }
     }
 
@@ -157,5 +184,16 @@ class DashboardViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             taskRepository.deleteTask(taskId)
         }
+    }
+
+    fun cancelScheduledTask(context: Context?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            scheduleTask.cancelScheduleTask(context, taskId)
+            updateTaskTime(null, null, null, context)
+        }
+    }
+
+    fun editTask(){
+        editTask.postValue(true)
     }
 }

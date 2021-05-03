@@ -19,7 +19,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:onClick="@{() -> categoryItemClick.onCategoryClicked(category)}">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/category_name"
             style="@style/TextSubTitle"
             android:layout_width="match_parent"

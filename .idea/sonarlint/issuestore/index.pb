@@ -74,8 +74,6 @@ L
 .idea/codeStyles/Project.xml,6\e\6ecd6000a7b6f4a2884412ff19f74193ed089648
 ?
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
-w
-Gapp/src/main/java/com/makeover/todolist/view/customviews/AlertDialog.kt,e\5\e5ceb67d8a135b4b0ec2846eb4dd05d0a5eb1e5b
 z
 Japp/src/main/java/com/makeover/todolist/databinding/SettingsDataBinding.kt,8\4\84e05522b21efdfb0fcdaa7cc7160b554faa30a7
 v
@@ -124,5 +122,25 @@ Qapp/src/main/java/com/makeover/todolist/interface/ChooseOneAlertDialogListener.
 Tapp/src/main/java/com/makeover/todolist/interface/ConfirmationAlertDialogListener.kt,6\3\636ae7cad8c47ed702881d78dc7aee5ccc1de01b
 Œ
 \app/src/main/java/com/makeover/todolist/view/dashboard/ui/taskdetails/TaskDetailsFragment.kt,3\0\30a4ce88e0d7dd9099653e16b94d139311a5d6ff
-}
-Mapp/src/main/java/com/makeover/todolist/view/customviews/DateAndTimePicker.kt,d\a\daafe5da1bd4afea43b627c749843856e084e5fc
+~
+Napp/src/main/java/com/makeover/todolist/interface/DateAndTimePickerListener.kt,9\4\9418e26ee52ad0e4207041520171de0182264553
+U
+%app/src/main/res/menu/header_menu.xml,f\3\f3eded5a146f1730948466623f6cbc4deafbc6d7
+\
+,app/src/main/res/drawable/ic_create_task.xml,c\b\cb5aedc94492dbce6b7a322ed17247922b23798e
+W
+'app/src/main/res/drawable/ic_delete.xml,b\8\b806acefff821efbc1dc740e5114c6f09b49d5db
+U
+%app/src/main/res/drawable/ic_edit.xml,5\c\5c82db06199755bd2aac1aa3e874387e8f19e308
+w
+Gapp/src/main/java/com/makeover/todolist/scheduler/ScheduleTaskWorker.kt,6\b\6b95d293f52d9d38f2ce4ca67dd27baa2c0b3083
+q
+Aapp/src/main/java/com/makeover/todolist/scheduler/ScheduleTask.kt,f\e\fe577ad9282899945942c8a0376e4108d34388da
+{
+Kapp/src/main/java/com/makeover/todolist/view/customviews/AlertDialogView.kt,7\5\752d9af9a91cad86fec0ec3a51799c0e10ddaa3b
+€
+Papp/src/main/java/com/makeover/todolist/view/customviews/ScheduleDateFragment.kt,e\7\e77cc59b908663c0a408c1d10371b68cc5c1398e
+w
+Gapp/src/main/java/com/makeover/todolist/interface/TimePickerListener.kt,2\c\2ca08df6bc8fa519c15a91233164069f6fee77b3
+€
+Papp/src/main/java/com/makeover/todolist/view/customviews/ScheduleTimeFragment.kt,1\3\133ba384f72471276fd861239a4a046fbba1f6f7

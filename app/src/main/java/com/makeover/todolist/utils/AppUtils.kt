@@ -1,7 +1,11 @@
 package com.makeover.todolist.utils
 
+import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import com.makeover.todolist.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 object AppUtils {
 
@@ -15,5 +19,23 @@ object AppUtils {
                 AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
             }
         }
+    }
+
+    fun getTimeString(context: Context, hour: Int?, minute: Int?): String {
+        hour?.let {
+            return if (hour < 12)
+                String.format(context.getString(R.string.time_format_am), hour, minute)
+            else
+                String.format(context.getString(R.string.time_format_pm), hour % 12, minute)
+        }
+        return AppConstants.EMPTY_STRING
+    }
+
+    fun getDateAndTimeString(context: Context, date: Long?, hour: Int?, minute: Int?): String {
+        date?.let {
+            val timeZoneDate = SimpleDateFormat("EEE dd MMM, yyyy, ", Locale.getDefault())
+            return timeZoneDate.format(Date(date)) + getTimeString(context, hour, minute)
+        }
+        return AppConstants.EMPTY_STRING
     }
 }

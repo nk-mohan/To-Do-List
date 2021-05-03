@@ -8,7 +8,7 @@ import com.makeover.todolist.`interface`.ChooseOneAlertDialogListener
 import com.makeover.todolist.`interface`.ConfirmationAlertDialogListener
 import javax.inject.Inject
 
-class AlertDialog @Inject constructor() {
+class AlertDialogView @Inject constructor() {
 
     fun showChooseOneAlertDialog(
         activity: Activity?,

@@ -4,6 +4,7 @@ import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import com.makeover.todolist.R
 import com.makeover.todolist.`interface`.ConfirmationAlertDialogListener
@@ -12,7 +13,7 @@ import com.makeover.todolist.helper.gone
 import com.makeover.todolist.helper.hide
 import com.makeover.todolist.helper.show
 import com.makeover.todolist.view.BottomSheetCreateTaskFragment
-import com.makeover.todolist.view.customviews.AlertDialog
+import com.makeover.todolist.view.customviews.AlertDialogView
 import com.makeover.todolist.viewmodel.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -26,7 +27,7 @@ open class DashboardParent : AppCompatActivity() {
     protected val bindingDashboardActivity get() = _bindingDashboardActivity!!
 
     @Inject
-    lateinit var alertDialog: AlertDialog
+    lateinit var alertDialogView: AlertDialogView
 
     private val dashboardViewModel: DashboardViewModel by viewModels()
 
@@ -90,8 +91,15 @@ open class DashboardParent : AppCompatActivity() {
         }
     }
 
+    protected fun setObservers(){
+        dashboardViewModel.editTask.observe(this, {
+            if (it)
+                showBottomSheetFragment(isTask = true, isEdit = true)
+        })
+    }
+
     protected fun deleteCategory() {
-        alertDialog.showConfirmationDialog(this,
+        alertDialogView.showConfirmationDialog(this,
             getString(R.string.delete_category),
             getString(R.string.delete_category_desc),
             getString(R.string.positive_button),
@@ -105,7 +113,7 @@ open class DashboardParent : AppCompatActivity() {
     }
 
     protected fun deleteTask() {
-        alertDialog.showConfirmationDialog(this,
+        alertDialogView.showConfirmationDialog(this,
             getString(R.string.delete_task),
             getString(R.string.delete_task_desc),
             getString(R.string.positive_button),

@@ -25,4 +25,5 @@
     <color name="dark_color">@color/black</color>
     <color name="app_color">@color/main_green</color>
     <color name="dark_gray">@color/black_gray</color>
+    <color name="light_gray">@color/light_grey</color>
 </resources>

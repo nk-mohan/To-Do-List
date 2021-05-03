@@ -23,6 +23,7 @@ class DashboardActivity : DashboardParent() {
 
         setUpNavigation()
         setUpViewActions()
+        setObservers()
     }
 
     private fun setUpNavigation() {

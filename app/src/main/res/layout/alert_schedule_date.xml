@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_10">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/schedule_time_layout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/schedule_time_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toTopOf="@+id/repeat_layout">
+
+            <ImageView
+                android:id="@+id/schedule_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/set_time"
+                android:padding="@dimen/dimen_10"
+                app:srcCompat="@drawable/ic_schedule_time" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/selected_time"
+                style="@style/TextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/schedule_time"
+                android:background="@drawable/edit_text_input_with_border"
+                android:padding="@dimen/dimen_10"
+                android:text="@string/set_time" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/repeat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toTopOf="@+id/btnDone">
+
+            <ImageView
+                android:id="@+id/repeat_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/repeat"
+                android:padding="@dimen/dimen_10"
+                app:srcCompat="@drawable/ic_repeat" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/repeat"
+                style="@style/TextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dimen_10"
+                android:layout_toEndOf="@+id/repeat_task"
+                android:background="@drawable/edit_text_input_with_border"
+                android:padding="@dimen/dimen_10"
+                android:text="@string/repeat" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDone"
+            style="@style/TextSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/done"
+            android:textAllCaps="false"
+            android:textColor="@color/app_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/TextSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnDone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
