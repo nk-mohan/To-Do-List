@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="subTask"
+            type="com.makeover.todolist.room.model.SubTask" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_3">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:button="@drawable/ic_radio_button"
+            android:checked="@{subTask.completed}"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="@dimen/dimen_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/sub_task_title"
+            style="@style/TextDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:background="@null"
+            android:hint="@string/enter_title"
+            android:inputType="textMultiLine"
+            android:minHeight="@dimen/dimen_35"
+            android:text="@{subTask.title}"
+            android:textColor="@{subTask.completed ? @color/app_color : @color/dark_color}"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/delete_sub_task"
+            app:layout_constraintStart_toEndOf="@+id/radioButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_sub_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/delete_sub_task"
+            android:padding="@dimen/dimen_8"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_clear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

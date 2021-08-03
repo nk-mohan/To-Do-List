@@ -1,6 +1,7 @@
 package com.makeover.todolist.room
 
 import com.makeover.todolist.room.dao.TaskDao
+import com.makeover.todolist.room.model.SubTask
 import com.makeover.todolist.room.model.Task
 import javax.inject.Inject
 
@@ -35,4 +36,16 @@ class TaskRepository @Inject constructor(private val taskDao: TaskDao) {
     suspend fun deleteTask(taskId: Int) = taskDao.deleteTask(taskId)
 
     suspend fun deleteAllTaskByCategory(categoryId: Int) = taskDao.deleteAllTaskByCategory(categoryId)
+
+    suspend fun getTaskDetails(taskId: Int) = taskDao.getTaskDetails(taskId)
+
+    suspend fun insertSubTask(subTask: SubTask) = taskDao.insertSubTask(subTask)
+
+    suspend fun getSubTask(id: Int) = taskDao.getSubTask(id)
+
+    suspend fun updateSubTaskTitle(id: Int, title: String) = taskDao.updateSubTaskTitle(id, title)
+
+    suspend fun updateSubTaskCompletion(id: Int, isCompleted: Boolean) = taskDao.updateSubTaskCompletion(id, isCompleted)
+
+    suspend fun deleteSubTask(id: Int) = taskDao.deleteSubTask(id)
 }

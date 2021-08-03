@@ -8,12 +8,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import com.makeover.todolist.helper.CategoryDiffCallback
+import com.makeover.todolist.helper.SubTaskDiffCallback
 import com.makeover.todolist.helper.TaskDiffCallback
 import com.makeover.todolist.room.CategoryRepository
 import com.makeover.todolist.room.TaskRepository
 import com.makeover.todolist.room.model.Category
+import com.makeover.todolist.room.model.SubTask
 import com.makeover.todolist.room.model.Task
+import com.makeover.todolist.room.model.TaskDetails
 import com.makeover.todolist.scheduler.ScheduleTask
+import com.makeover.todolist.utils.AppConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,16 +37,22 @@ class DashboardViewModel @ViewModelInject constructor(
     var taskId: Int = 0
 
     val category: MutableLiveData<Category> = MutableLiveData()
-    var categoryList = mutableListOf<Category>()
+    private var categoryList = mutableListOf<Category>()
     var categoryListAdapter = mutableListOf<Category>()
     val categoryDiffResult = MutableLiveData<DiffUtil.DiffResult>()
 
     val task: MutableLiveData<Task> = MutableLiveData()
     val editTask: MutableLiveData<Boolean> = MutableLiveData()
-    val taskList: MutableLiveData<List<Task>> = MutableLiveData()
-    val taskListByCategory = mutableListOf<Task>()
+    private val taskList: MutableLiveData<List<Task>> = MutableLiveData()
+    private val taskListByCategory = mutableListOf<Task>()
     val taskListByCategoryAdapter = mutableListOf<Task>()
     val taskDiffResult = MutableLiveData<DiffUtil.DiffResult>()
+
+    val taskDetails: MutableLiveData<TaskDetails> = MutableLiveData()
+    val subTaskDetails = mutableListOf<SubTask>()
+    val createdSubTask: MutableLiveData<Int> = MutableLiveData()
+    val subTaskListAdapter = mutableListOf<SubTask>()
+    val subTaskDiffResult = MutableLiveData<DiffUtil.DiffResult>()
 
     /* Category Related Action from Below */
 
@@ -193,7 +203,59 @@ class DashboardViewModel @ViewModelInject constructor(
         }
     }
 
-    fun editTask(){
+    fun editTask() {
         editTask.postValue(true)
+    }
+
+    /* Task Details Related Action from Below */
+    fun getTaskDetails(taskId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val details = taskRepository.getTaskDetails(taskId)
+            taskDetails.postValue(details)
+            subTaskDetails.clear()
+            subTaskDetails.addAll(details.subTaskList)
+            getSubTaskDiffResult()
+        }
+    }
+
+    private fun getSubTaskDiffResult() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val diffResult =
+                getDiffUtilResult(SubTaskDiffCallback(subTaskListAdapter, subTaskDetails))
+            subTaskListAdapter.clear()
+            subTaskListAdapter.addAll(subTaskDetails)
+            subTaskDiffResult.postValue(diffResult)
+        }
+    }
+
+    fun createSubTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val id = taskRepository.insertSubTask(SubTask(taskId, AppConstants.EMPTY_STRING, false))
+            val subTask = taskRepository.getSubTask(id.toInt())
+            subTaskDetails.add(subTask)
+            subTaskListAdapter.add(subTask)
+            createdSubTask.postValue(subTaskListAdapter.size - 1)
+        }
+    }
+
+    fun updateSubTaskTitle(id: Int, title: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.updateSubTaskTitle(id, title)
+        }
+    }
+
+    fun updateSubTaskCompletion(id: Int, isCompleted: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.updateSubTaskCompletion(id, isCompleted)
+        }
+    }
+
+    fun deleteSubTask(index: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskRepository.deleteSubTask(subTaskListAdapter[index].id!!)
+            subTaskListAdapter.removeAt(index)
+            subTaskDetails.removeAt(index)
+            getSubTaskDiffResult()
+        }
     }
 }
