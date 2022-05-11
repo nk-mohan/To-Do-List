@@ -15,7 +15,6 @@ import com.makeover.todolist.room.TaskRepository
 import com.makeover.todolist.room.model.Category
 import com.makeover.todolist.room.model.SubTask
 import com.makeover.todolist.room.model.Task
-import com.makeover.todolist.room.model.TaskDetails
 import com.makeover.todolist.scheduler.ScheduleTask
 import com.makeover.todolist.utils.AppConstants
 import kotlinx.coroutines.Dispatchers
@@ -48,11 +47,13 @@ class DashboardViewModel @ViewModelInject constructor(
     val taskListByCategoryAdapter = mutableListOf<Task>()
     val taskDiffResult = MutableLiveData<DiffUtil.DiffResult>()
 
-    val taskDetails: MutableLiveData<TaskDetails> = MutableLiveData()
+    val taskDetails: MutableLiveData<Task> = MutableLiveData()
     val subTaskDetails = mutableListOf<SubTask>()
-    val createdSubTask: MutableLiveData<Int> = MutableLiveData()
     val subTaskListAdapter = mutableListOf<SubTask>()
+    val subTaskCompletedDetails = mutableListOf<SubTask>()
+    val subTaskCompletedListAdapter = mutableListOf<SubTask>()
     val subTaskDiffResult = MutableLiveData<DiffUtil.DiffResult>()
+    val subTaskCompletedDiffResult = MutableLiveData<DiffUtil.DiffResult>()
 
     /* Category Related Action from Below */
 
@@ -210,15 +211,12 @@ class DashboardViewModel @ViewModelInject constructor(
     /* Task Details Related Action from Below */
     fun getTaskDetails(taskId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val details = taskRepository.getTaskDetails(taskId)
+            val details = taskRepository.getTask(taskId)
             taskDetails.postValue(details)
-            subTaskDetails.clear()
-            subTaskDetails.addAll(details.subTaskList)
-            getSubTaskDiffResult()
         }
     }
 
-    private fun getSubTaskDiffResult() {
+    fun getSubTaskDiffResult() {
         viewModelScope.launch(Dispatchers.IO) {
             val diffResult =
                 getDiffUtilResult(SubTaskDiffCallback(subTaskListAdapter, subTaskDetails))
@@ -228,13 +226,19 @@ class DashboardViewModel @ViewModelInject constructor(
         }
     }
 
+    fun getSubTaskCompletedDiffResult() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val diffResult =
+                getDiffUtilResult(SubTaskDiffCallback(subTaskCompletedListAdapter, subTaskCompletedDetails))
+            subTaskCompletedListAdapter.clear()
+            subTaskCompletedListAdapter.addAll(subTaskCompletedDetails)
+            subTaskCompletedDiffResult.postValue(diffResult)
+        }
+    }
+
     fun createSubTask() {
         viewModelScope.launch(Dispatchers.IO) {
-            val id = taskRepository.insertSubTask(SubTask(taskId, AppConstants.EMPTY_STRING, false))
-            val subTask = taskRepository.getSubTask(id.toInt())
-            subTaskDetails.add(subTask)
-            subTaskListAdapter.add(subTask)
-            createdSubTask.postValue(subTaskListAdapter.size - 1)
+            taskRepository.insertSubTask(SubTask(taskId, AppConstants.EMPTY_STRING, false))
         }
     }
 
@@ -250,12 +254,9 @@ class DashboardViewModel @ViewModelInject constructor(
         }
     }
 
-    fun deleteSubTask(index: Int) {
+    fun deleteSubTask(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            taskRepository.deleteSubTask(subTaskListAdapter[index].id!!)
-            subTaskListAdapter.removeAt(index)
-            subTaskDetails.removeAt(index)
-            getSubTaskDiffResult()
+            taskRepository.deleteSubTask(id)
         }
     }
 }

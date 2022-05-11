@@ -2,6 +2,7 @@ package com.makeover.todolist.view.dashboard.ui.taskdetails
 
 import android.animation.LayoutTransition
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.makeover.todolist.databinding.FragmentTaskDetailsBinding
 import com.makeover.todolist.helper.gone
 import com.makeover.todolist.helper.show
 import com.makeover.todolist.helper.showKeyBoard
+import com.makeover.todolist.room.TaskRepository
 import com.makeover.todolist.room.model.Task
 import com.makeover.todolist.utils.AppUtils
 import com.makeover.todolist.view.customviews.ScheduleDateFragment
@@ -21,8 +23,14 @@ import com.makeover.todolist.view.dashboard.DashboardActivity
 import com.makeover.todolist.view.delegate.ViewBindingHolder
 import com.makeover.todolist.view.delegate.ViewBindingHolderImpl
 import com.makeover.todolist.viewmodel.DashboardViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class TaskDetailsFragment : Fragment(),
     ViewBindingHolder<FragmentTaskDetailsBinding> by ViewBindingHolderImpl(), View.OnClickListener,
     SubTaskAdapter.SubTaskOnClickListener {
@@ -34,8 +42,15 @@ class TaskDetailsFragment : Fragment(),
 
     private val dashboardViewModel: DashboardViewModel by activityViewModels()
 
+    @Inject
+    lateinit var taskRepository: TaskRepository
+
     private val subTaskAdapter: SubTaskAdapter by lazy {
         SubTaskAdapter(dashboardViewModel.subTaskListAdapter, this, requireContext())
+    }
+
+    private val subTaskCompletedAdapter: SubTaskAdapter by lazy {
+        SubTaskAdapter(dashboardViewModel.subTaskCompletedListAdapter, this, requireContext())
     }
 
     override fun onCreateView(
@@ -69,6 +84,12 @@ class TaskDetailsFragment : Fragment(),
             adapter = subTaskAdapter
         }
 
+        taskDetailsBinding.subTaskCompletedRecyclerView.apply {
+            subTaskAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            adapter = subTaskCompletedAdapter
+        }
+
         val transition = LayoutTransition()
         transition.enableTransitionType(LayoutTransition.CHANGING)
         transition.setStartDelay(LayoutTransition.CHANGING, 500)
@@ -77,24 +98,38 @@ class TaskDetailsFragment : Fragment(),
 
     private fun setObservers() {
         dashboardViewModel.taskDetails.observe(viewLifecycleOwner, { task ->
-            taskDetailsBinding.task = task.task
+            taskDetailsBinding.task = task
 
-            setTaskDetails(task.task)
+            setTaskDetails(task)
         })
         dashboardViewModel.subTaskDiffResult.observe(viewLifecycleOwner, { diffUtilResult ->
-//            if (diffUtilResult != null) {
-//                diffUtilResult.dispatchUpdatesTo(subTaskAdapter)
-//                updateHintPosition()
-//            }
-            subTaskAdapter.notifyDataSetChanged()
+            diffUtilResult.dispatchUpdatesTo(subTaskAdapter)
             updateHintPosition()
         })
-        dashboardViewModel.createdSubTask.observe(viewLifecycleOwner, {
-            it?.let {
-                subTaskAdapter.setLastPositionFocusable(true)
-                subTaskAdapter.notifyItemInserted(it)
-                dashboardViewModel.createdSubTask.postValue(null)
-            }
+
+        dashboardViewModel.subTaskCompletedDiffResult.observe(viewLifecycleOwner, { diffUtilResult ->
+            diffUtilResult.dispatchUpdatesTo(subTaskCompletedAdapter)
+        })
+
+        CoroutineScope(Dispatchers.IO).launch {
+            observeSubTaskList()
+            observeCompletedSubTaskList()
+        }
+    }
+
+    suspend fun observeSubTaskList() = withContext(Dispatchers.Main) {
+        taskRepository.getSubTaskList(taskId).observe(viewLifecycleOwner, { list ->
+            dashboardViewModel.subTaskDetails.clear()
+            dashboardViewModel.subTaskDetails.addAll(list)
+            dashboardViewModel.getSubTaskDiffResult()
+        })
+    }
+
+    suspend fun observeCompletedSubTaskList() = withContext(Dispatchers.Main) {
+        taskRepository.getCompletedSubTaskList(taskId).observe(viewLifecycleOwner, { list ->
+            dashboardViewModel.subTaskCompletedDetails.clear()
+            dashboardViewModel.subTaskCompletedDetails.addAll(list)
+            dashboardViewModel.getSubTaskCompletedDiffResult()
         })
     }
 
@@ -164,17 +199,16 @@ class TaskDetailsFragment : Fragment(),
                 dashboardViewModel.cancelScheduledTask(requireContext())
             }
             taskDetailsBinding.subTaskHint -> {
+                subTaskAdapter.setLastPositionFocusable(true)
                 dashboardViewModel.createSubTask()
             }
         }
     }
 
-    override fun deleteSubTask(index: Int) {
-        if (dashboardViewModel.subTaskListAdapter.size > index) {
-            dashboardViewModel.deleteSubTask(index)
-            subTaskAdapter.notifyItemRemoved(index)
-            updateHintPosition()
-        }
+    override fun deleteSubTask(id: Int) {
+       // if (dashboardViewModel.subTaskListAdapter.size > index) {
+            dashboardViewModel.deleteSubTask(id)
+       // }
     }
 
     override fun completeSubTask(id: Int) {

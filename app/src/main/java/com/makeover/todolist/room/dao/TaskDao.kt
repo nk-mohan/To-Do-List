@@ -1,9 +1,9 @@
 package com.makeover.todolist.room.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.makeover.todolist.room.model.SubTask
 import com.makeover.todolist.room.model.Task
-import com.makeover.todolist.room.model.TaskDetails
 
 @Dao
 interface TaskDao {
@@ -47,9 +47,11 @@ interface TaskDao {
     @Query("DELETE FROM TASK WHERE category_id = :categoryId")
     suspend fun deleteAllTaskByCategory(categoryId: Int)
 
-    @Transaction
-    @Query("SELECT * FROM TASK WHERE id = :taskId")
-    suspend fun getTaskDetails(taskId: Int): TaskDetails
+    @Query("SELECT * FROM SUB_TASK WHERE task_id = :taskId and is_completed = 0")
+    fun getSubTaskList(taskId: Int): LiveData<List<SubTask>>
+
+    @Query("SELECT * FROM SUB_TASK WHERE task_id = :taskId and is_completed = 1")
+    fun getCompletedSubTaskList(taskId: Int): LiveData<List<SubTask>>
 
     @Insert
     suspend fun insertSubTask(subTask: SubTask): Long

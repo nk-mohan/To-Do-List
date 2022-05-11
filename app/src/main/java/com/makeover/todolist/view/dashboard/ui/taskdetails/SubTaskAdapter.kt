@@ -34,15 +34,15 @@ class SubTaskAdapter(
     }
 
     override fun onBindViewHolder(holder: SubTaskViewHolder, position: Int) {
-        holder.subTaskViewBinding.subTask = taskList[position]
+        holder.subTaskViewBinding.subTask = taskList[holder.bindingAdapterPosition]
 
         holder.subTaskViewBinding.deleteSubTask.setOnClickListener {
-            subTaskOnClickListener.deleteSubTask(position)
+            subTaskOnClickListener.deleteSubTask(taskList[holder.bindingAdapterPosition].id!!)
         }
 
         holder.subTaskViewBinding.radioButton.setOnClickListener {
             if (holder.subTaskViewBinding.radioButton.isChecked) {
-                subTaskOnClickListener.completeSubTask(taskList[position].id!!)
+                subTaskOnClickListener.completeSubTask(taskList[holder.bindingAdapterPosition].id!!)
                 holder.subTaskViewBinding.subTaskTitle.setTextColor(
                     ContextCompat.getColor(
                         context,
@@ -55,9 +55,9 @@ class SubTaskAdapter(
         holder.subTaskViewBinding.subTaskTitle.addTextChangedListener {
             it?.let {
                 if (holder.subTaskViewBinding.subTaskTitle.isCursorVisible) {
-                    taskList[position].title = it.toString()
+                    taskList[holder.bindingAdapterPosition].title = it.toString()
                     subTaskOnClickListener.updateSubTaskTitle(
-                        taskList[position].id!!,
+                        taskList[holder.bindingAdapterPosition].id!!,
                         it.toString()
                     )
                 }
@@ -69,7 +69,7 @@ class SubTaskAdapter(
                 if (hasFocus) View.VISIBLE else View.INVISIBLE
         }
 
-        if (lastPositionFocusable && position == taskList.size - 1) {
+        if (lastPositionFocusable && holder.bindingAdapterPosition == taskList.size - 1) {
             subTaskOnClickListener.openKeyBoard(holder.subTaskViewBinding.subTaskTitle)
         }
     }
@@ -83,7 +83,7 @@ class SubTaskAdapter(
     }
 
     interface SubTaskOnClickListener {
-        fun deleteSubTask(index: Int)
+        fun deleteSubTask(id: Int)
 
         fun completeSubTask(id: Int)
 

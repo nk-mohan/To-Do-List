@@ -7,7 +7,6 @@ import com.makeover.todolist.room.dao.TaskDao
 import com.makeover.todolist.room.model.Category
 import com.makeover.todolist.room.model.SubTask
 import com.makeover.todolist.room.model.Task
-import com.makeover.todolist.room.model.TaskDetails
 
 @Database(entities = [Category::class, Task::class, SubTask::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

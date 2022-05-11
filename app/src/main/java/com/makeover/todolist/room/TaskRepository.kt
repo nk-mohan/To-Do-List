@@ -37,7 +37,9 @@ class TaskRepository @Inject constructor(private val taskDao: TaskDao) {
 
     suspend fun deleteAllTaskByCategory(categoryId: Int) = taskDao.deleteAllTaskByCategory(categoryId)
 
-    suspend fun getTaskDetails(taskId: Int) = taskDao.getTaskDetails(taskId)
+    suspend fun getSubTaskList(taskId: Int) = taskDao.getSubTaskList(taskId)
+
+    suspend fun getCompletedSubTaskList(taskId: Int) = taskDao.getCompletedSubTaskList(taskId)
 
     suspend fun insertSubTask(subTask: SubTask) = taskDao.insertSubTask(subTask)
 

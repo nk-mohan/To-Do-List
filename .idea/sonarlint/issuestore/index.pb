@@ -116,9 +116,19 @@ X
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 …
 Uapp/src/main/java/com/makeover/todolist/view/dashboard/ui/category/CategoryAdapter.kt,0\b\0bd0c195509d5d094326926ffbe053c4e678205b
-~
-Napp/src/main/java/com/makeover/todolist/view/dashboard/ui/task/TaskFragment.kt,6\6\66728d2663c2050157e36fbe6277e54c2659fb58
 {
 Kapp/src/main/java/com/makeover/todolist/view/dashboard/DashboardActivity.kt,2\e\2ec066dc32876032829c768de64f606c4d3b81db
 q
 Aapp/src/main/java/com/makeover/todolist/scheduler/ScheduleTask.kt,f\e\fe577ad9282899945942c8a0376e4108d34388da
+€
+Papp/src/main/java/com/makeover/todolist/view/customviews/ScheduleDateFragment.kt,e\7\e77cc59b908663c0a408c1d10371b68cc5c1398e
+x
+Happ/src/main/java/com/makeover/todolist/view/delegate/DashboardParent.kt,3\f\3f73eb9226bd99d84dcad39aa3bb76726b88bfca
+i
+9app/src/main/java/com/makeover/todolist/utils/AppUtils.kt,f\3\f32170a91aa27524d5b6139a6528fd18662534bb
+†
+Vapp/src/main/java/com/makeover/todolist/view/dashboard/ui/category/CategoryFragment.kt,0\3\03b37728e623d2a350c9edbb1a6c6b04c3626ba0
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+~
+Napp/src/main/java/com/makeover/todolist/view/dashboard/ui/task/TaskFragment.kt,6\6\66728d2663c2050157e36fbe6277e54c2659fb58
